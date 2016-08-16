@@ -36,3 +36,31 @@ delete tomSmith[3];
 // Sort an array (reverse() for reverse sort)
 // Works for sorting strings
 tomSmith.sort();
+
+// Sort numbers
+var numbers = [4,3,9,1,20,43];
+ 
+// Descending sort return y - x ( x-y ascending order y-x decending)
+numbers.sort(function(x,y){ return x - y });// 
+document.write("Num Array : ", numbers.toString(), "<br />");
+ 
+// Combine arrays
+var combinedArray = numbers.concat(tomSmith);
+ 
+// Remove the last item
+tomSmith.pop();
+ 
+// Add items to the end
+tomSmith.push("555-1212", "US");
+ 
+// Deletes the first item
+tomSmith.shift();
+ 
+// Adds item to the first index
+tomSmith.unshift("Tom Smith");
+ 
+for (var i = 0; i < tomSmith.length; i++) {
+  document.write(tomSmith[i], "<br />");
+}
+
+//34:41  line 308
