@@ -52,8 +52,16 @@ if the next message appears:
 
 you shold  run :
      git pull origin master   and after that run   git push -u origin master
+
+
+changing  remote
+------------------
+ git remote set-url origin https://github.com/USERNAME/PRJECT_NAME.git
+
 	 
-	 
+dos commands	 
 	 show hidden file in cmd  'dir /ah'
 	 delete non empty dir  rmdir   /s  'dir name'
 	 
+
+
