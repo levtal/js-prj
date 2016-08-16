@@ -1,0 +1,59 @@
+The git process   'https://help.github.com/articles/create-a-repo/'
+------------------------
+
+1:  At  the  'https://github.com/username'   press the '+' (Upper-right corner of any page, click , and then click New repository.) and   choose:   'Create a new repository'.
+2:  choose 'Repository name'.
+3:  Choose creating a public  repository. 
+4:  Select Initialize this repository with a README
+5:  Click Create repository. 
+
+
+
+How commit a change to the README file.
+ -------------------------------------------
+ 1: In your repository's list of files, click README.md.
+ 2: Above the file's content, click 'the pencil tag' 
+ 3: On the Edit file tab , type some information about yourself.
+
+ 4: Above the new content, click Preview changes.
+
+ 5: At the bottom of the page, type a short, meaningful commit message  	
+
+ 6: Below the commit message fields, decide whether to add your commit to the current branch or to a new branch. If your current branch is master, you should choose to create a new branch for your commit and then create a pull request.
+
+ 7:Click Propose file change.
+
+ 
+
+ Git in local  computer
+--------------------------------------
+ 1: In the  project dir run 'git  init'
+
+  
+2: Type  'git add .' to add all the files  .
+3: Type  'git commit -m "Fix such and such"'
+ 
+
+
+Push an existing repository
+---------------
+
+1: git remote add origin https://github.com/username/new_repo.git
+2: git remote -v
+3: git push -u origin master
+      you need to print user name  and passward
+
+if the next message appears:
+     ! [rejected]        master -> master (non-fast-forward)
+     error: failed to push some refs to 'https://github.com//username/new_repo'
+     hint: Updates were rejected because the tip of your current branch is behind
+     hint: its remote counterpart. Integrate the remote changes (e.g.
+     hint: 'git pull ...') before pushing again.
+
+you shold  run :
+     git pull origin master   and after that run   git push -u origin master
+	 
+	 
+	 show hidden file in cmd  'dir /ah'
+	 delete non empty dir  rmdir   /s  'dir name'
+	 
