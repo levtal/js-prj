@@ -38,11 +38,37 @@ var tilMyBD = msForBD - timeNow;
  
 document.write("Days til Birthday : ", tilMyBD / (1000 * 60 * 60 * 24), "<br />");
  
-  
+//51:40  line 463
+
+
+
+function getChar(event) {
  
+  //which is a property of  the event object.
+  // It contains the key code of the pressed key  
+
+  if (event.which == null) {
+ 
+    // Return the char if not a special character
+    return String.fromCharCode(event.keyCode); // IE
+  } else  if (event.which!=0 && event.charCode!=0) {
+            return String.fromCharCode(event.which);   // Other Browsers
+          } else {
+                   return null; // Special Key Clicked
+                 }
+  }///getChar
+ 
+ document.getElementById('charInput').onkeypress  =  function(event) {
+  var char = getChar(event || window.event)
+  if (!char) return false; // Special Key Clicked
+ 
+  document.getElementById('keyData').innerHTML = char + " was clicked";
+  return true;
+}  
  
  
  //51:40  line 463
+ 
  
  
  
