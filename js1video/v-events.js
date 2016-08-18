@@ -131,18 +131,27 @@ document.body.onmousemove = function(e) {
       // clientX, clientY : Mouse position relative to the browsers viewport
       // scrollLeft, scrollTop : Pixels an element is scrolled left or
       // from the top
-    pageX=e.clientX+document.body.scrollLeft+document.documentElement.scrollLeft;
-       pageY = e.clientY + document.body.scrollTop + document.documentElement.scrollTop;
+       pageX = e.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
+       pageY = e.clientY + document.body.scrollTop  + document.documentElement.scrollTop;
     }
  
     document.getElementById('mouseX').value = pageX;
     document.getElementById('mouseY').value = pageY;
 };
  
+ // Clear all input elements
+document.getElementById('clearInputs').onclick = function(event) {
+  var inputElements = document.getElementsByTagName('input');
+ 
+  for (var i = 0; i < inputElements.length; i++) {
+     if (inputElements[i].type == "text") {
+         inputElements[i].value = "";
+     }
+    }
+}
  
  
  
- 
- 
+ // 1:03   line 567
  
 
