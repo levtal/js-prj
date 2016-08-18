@@ -1,6 +1,6 @@
 //v-style.js
 
-
+// http://www.w3schools.com/jsref/dom_obj_document.asp
 // http://www.newthinktank.com/2015/09/learn-javascript-one-video/
 // https://www.youtube.com/watch?v=fju9ii8YsGs
    
