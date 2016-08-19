@@ -70,3 +70,35 @@ document.write("Node Name : ", sampDiv2.childNodes[0].childNodes[0].nodeName, "<
  
 sampDiv2.childNodes[1].childNodes[3].style.backgroundColor = "#BFAFB2";
 // 1:15   line 677
+
+
+// Changing element attributes
+var nttLogo2 = document.getElementById('logo2');
+ 
+// Check for attributes
+document.write("Logo has alt : ", nttLogo2.hasAttribute("alt"), "<br />");
+ 
+// Change attribute
+nttLogo2.setAttribute("alt", "NTT Logo 2");
+ 
+// Get attribute
+document.write("Logo alt Value : ", nttLogo2.getAttribute("alt"), "<br />");
+ 
+// Get all attributes and print them
+var attribList = document.getElementById('logo2').attributes;
+ 
+for(i = 0; i < attribList.length; i++){
+  document.write("Attribute ", i, " : ", attribList[i].nodeName, " : ", attribList[i].nodeValue, "<br />");
+}
+ 
+// Add a p element after setting an attribute and text
+var paragraph3 = document.createElement("p");
+ 
+paragraph3.setAttribute("id", "paragraph3");
+ 
+paragraph3.innerHTML = "mmmmmmmmmmmmmmmmProin eget turpis eget quam luctus malesuada ut ac nulla.";
+ 
+sampDiv2.appendChild(paragraph3);
+// Insert the element before the 1st child
+sampDiv2.insertBefore(paragraph3, sampDiv2.childNodes[0]);
+ //  1:19:55  line 711
