@@ -16,8 +16,9 @@ document.write("Current URL : ", window.location.href, "<br />");
  
  
  
-// Create a customer object by defining the attributes of John Smith
+// Create a one customer object by defining the attributes of John Smith
 // The variable is a reference to the object in memory
+// with  this method you are creating only one object .
 var cust1 = {
   name: "John Smith",
   street: "123 Main",
@@ -67,3 +68,46 @@ document.write(getInfo(cust1), "<br />");
  
 //    // 1:25   line 763 
 // Call object methods
+
+cust1.payDownBal(20.50);
+cust1.addToBal(10.00);
+ 
+document.write(getInfo(cust1), "<br />");
+ 
+// Create an object constructor . With method you can create  many  //objects 
+
+document.write("<br /><br /><br /><b>Create an object constructor</b><br /><br />");
+function Customer(name, street, city, state, email, balance){
+  this.name = name;
+  this.street = street;
+  this.city = city;
+  this.state = state;
+  this.email = email;
+  this.balance = balance;
+ 
+  this.payDownBal = function(amtPaid){
+    this.balance -= amtPaid;
+  };
+  this.addToBal = function(amtCharged){
+    this.balance += amtCharged;
+  };
+}
+
+ //   creating objects 
+var cust2 = new Customer("Sally Smith", "234 Main", "Pittsburgh", "PA", "ssmith@aol.com", 0.00);
+ 
+cust2.addToBal(15.50);
+ 
+// Define a shared prototype property for all objects
+//  this is a static verible  definition
+Customer.prototype.isCreditAvail = true;
+ 
+// We define prototype methods that are shared by every object created
+// we are overiding the original  'toString'
+Customer.prototype.toString = function(){
+    return this.name + " lives at " + this.street + " in " + this.city + " " + this.state + " email : " + this.email + " and has a balance of $" + this.balance.toFixed(2) + " Creditworthy : " + this.isCreditAvail;
+};
+ 
+document.write(cust2.toString());
+
+ // 1:28   line 798 
