@@ -91,5 +91,32 @@ $("document").ready(function() { // line 108
   alert($("p:has(i)").html());
   
    // line 187  18:30
+// Change the text in the matching p element and show it
+  // .text() works the same but it doesn't recognize html
+  // elements
+  $("p:has(i)").html("<i>Some 666666666666666666666666normal text</i>").show();
+ 
+  // Append adds text at the end of an element
+  $("p:has(i)").append(" I go at the end");
+ 
+  // Prepend adds text at the beginning of an element
+  $("p:has(i)").prepend("I go at the beginning ");
+ 
+  // Add a new element before the targeted one
+  $("p:has(i)").before("<p id='before_p'>A new paragraph before   <b> Click to change</b></p>");
+ 
+  // Add a new element after the targeted one
+  $("p:has(i)").after("<p id='after_p'>A new paragraph after   <b> Click to remove</b></p>");
+  // When the element with the id 'after_p' is clicked
+  // remove it from the document
+  $("#after_p").click(function() {
+    $(this).remove();
+  });
+ 
+// Replace an element with another on click
+  $("#before_p").click(function() {
+    $(this).replaceWith('<p>I\'m the new paragraph</p>');
+  });
   
+  // line215  22:30
 }); <!-- End of JQuery Code -->
