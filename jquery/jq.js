@@ -58,10 +58,38 @@ $("document").ready(function() { // line 108
   $("a[href^='http://g']").css("color", "cyan");
  
   $("a[href^='mailto:']").css("color", "yellow");
+  // line 157  13:51
+   // Change an image height and width on one line
+  $("img[alt^='NTT']").width(150)
+                      .height(150); 
+  // Target items that end with ($=) a value
+  $("a[href$='pdf']").css("color", "red");
  
-    // line 157  13:51
+  // Select the odd (1,3,5) and even (0,2,4) items
+  $("#tableData tr:even").css("background-color", "#FFFDD0");
+  $("#tableData tr:odd").css("background-color", "#F0F8FF");
+ 
+  // Select the first matching element
+  $("#tableData tr:first").css({   "background-color" : "#001A57", 
+  "color" : "white"
+  });
+ 
+  // Select the last matching element
+  $("#tableData tr:last").css("background-color", "#FFC0DB");
+ 
+  // Select the elements that don't contain 'and' in them
+  $("#oListTypes li:not(:contains(and))").css("color", "red");
+ 
+  // Select every a element that contains 'gravida'
+  $("a:contains(gravida)").css("color", "blue");
+ 
+  // Select every p element that contains a i element
+  // and hide it
+  $("p:has(i)").hide();
+ 
+  // Display the text between the matching p element
+  alert($("p:has(i)").html());
   
-  
-  
+   // line 187  18:30
   
 }); <!-- End of JQuery Code -->
