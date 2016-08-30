@@ -115,8 +115,52 @@ $("document").ready(function() { // line 108
  
 // Replace an element with another on click
   $("#before_p").click(function() {
-    $(this).replaceWith('<p>I\'m the new paragraph</p>');
+    $(this).replaceWith('<p>I\'m the new paragraph1231213123123</p>');
   });
   
+
   // line215  22:30
+   // Perform a different action on each matching element
+  $("#oListIndent li").each(function(index) {
+ 
+    // Get the value in the input element
+    var inputListStuff = $("#listStuff").val();
+ 
+    // Assign a new value to the input element
+    // $(this).text() gets the value for each individual
+    // li element and put all of them inside 
+    //<input type="text" id="listStuff" size="50"><br />
+    $("#listStuff").val(inputListStuff + ", " + $(this).text());
+ 
+  });
+
+
+
+  // CHANGING ELEMENT ATTRIBUTES
+ 
+  // Add a class to elements
+  // .removeClass() will take the class away
+  $("#oListIndent li").addClass("Harry_Potter");
+ 
+  $(".Harry_Potter").css("color", "#0000FF");// change letter in list to blue
+ 
+  // You can toggle classes on and off an element
+  $("#oListIndent li").click(function() {
+    $(this).toggleClass("highlight");
+ 
+    // Get the changing background color and display it
+    // in the input element
+    var bgColor = $(this).css("background-color");
+    $("input[type=text]#yourName").val(bgColor);
+  });
+ 
+  $("#logo2").click(function() {
+ 
+    // Get the value stored in an attribute
+    var imgName = $(this).attr("src");
+    $("input[type=text]#yourName").val(imgName);
+ 
+    // Change the value of an attribute
+    $("#logo2").attr("src", "ntt-logo-horz.png");
+  });
 }); <!-- End of JQuery Code -->
