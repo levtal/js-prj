@@ -11,9 +11,9 @@ $("document").ready(function() { //
  
   
    // hide an element on click
-  $("#p_one").click(function() {
-    $(this).hide();
-  });
+  //$("#p_one").click(function() {
+   // $(this).hide();
+  //});
 
 
 // slowly fade out an element over 2000 ms
@@ -45,4 +45,41 @@ $("document").ready(function() { //
     $("tr:has(td:contains('Bonds'))").slideDown(1000);
   });
  // 44:0  line 398
+
+
+ // You can create custom animations with animate
+  $("#p_one").click(function() {
+ 
+    // To define left, right, top or bottom the element must
+    // have a position property of relative or absolute
+    $(this).css("position", "relative");
+ 
+    // Pass an object that contains the properties to change,
+    // duration in milliseconds, easing function to use for
+    // the transition and the function to call after the
+    // animation completes
+    // The easing method functions are "swing or "linear"
+    // You also have the JQuery UI animations : easeInQuad,
+    // easeOutQuad, easeInOutQuad, easeInCubic, easeOutCubic,
+    // easeInOutCubic, easeInQuart, easeOutQuart,
+    // easeInOutQuart, easeInQuint, easeOutQuint,
+    // easeInOutQuint, easeInExpo, easeOutExpo,
+    // easeInOutExpo, easeInSine, easeOutSine, easeInOutSine,
+    // easeInCirc, easeOutCirc, easeInOutCirc, easeInElastic,
+    // easeOutElastic, easeInOutElastic, easeInBack,
+    // easeOutBack, easeInOutBack, easeInBounce,
+    // easeOutBounce, easeInOutBounce
+    $("#p_one").animate(
+    {
+      left: 300,
+      opacity: .5,
+      'font-size': "22px",
+      width: 300
+    }, 2000, "easeOutExpo", function(){alert("All Done");});
+  });
+
+  // It is common to use stop to prevent multiple
+  // animations on the same object like this
+  // $("#p_one").stop().animate( ...
+  //  // 45:0  line 429
 }); <!-- End of JQuery Code -->
