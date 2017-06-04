@@ -1,6 +1,11 @@
 The git process   'https://help.github.com/articles/create-a-repo/'
 ------------------------
 
+
+
+
+
+
 1:  At  the  'https://github.com/username'   press the '+' (Upper-right corner of any page, click , and then click New repository.) and   choose:   'Create a new repository'.
 2:  choose 'Repository name'.
 3:  Choose creating a public  repository. 
@@ -58,7 +63,18 @@ changing  remote
 ------------------
  git remote set-url origin https://github.com/USERNAME/PRJECT_NAME.git
 
-	 
+
+Switched to a new branch  gh-pages
+--------------------------------------------
+git checkout -b gh-pages
+
+Branch gh-pages set up to track remote branch gh-pages from origin.
+----------------------------------------------------------------
+git push -u origin gh-pages:gh-pages
+
+
+
+ 
 dos commands	 
 	 show hidden file in cmd  'dir /ah'
 	 delete non empty dir  rmdir   /s  'dir name'
