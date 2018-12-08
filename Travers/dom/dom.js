@@ -1,24 +1,26 @@
 // EXAMINE THE DOCUMENT OBJECT //
 
-// console.dir(document);
-// console.log(document.domain);
-// console.log(document.URL);
-// console.log(document.title);
-// //document.title =  123;
-// console.log(document.doctype);
-// console.log(document.head);
-// console.log(document.body);
-// console.log(document.all);
-// console.log(document.all[10]);
-// // document.all[10].textContent = 'Hello';
-// console.log(document.forms[0]);
-// console.log(document.links);
-// console.log(document.images);
+//  console.dir(document);
+  console.log('domain: ',document.domain);
+  console.log('URL: ',document.URL);
+  //https://www.youtube.com/watch?v=0ik6X4DJKCc&list=PLillGF-RfqbbnEGy3ROiLWk7JMCuSyQtX&index=5
+ console.log('title: ',document.title);
+   document.title =  123;
+  console.log('doctype: ',document.doctype);
+ console.log('head:',document.head);
+  console.log('body:', document.body);
+   console.log('document.all ',document.all)
+
+ console.log('document.all[10]',document.all[10]);
+  document.all[10].textContent = 'Hello';
+ console.log('forms[0]',document.forms[0]);
+  console.log('links',document.links);
+  console.log('images',document.images);
 
 // GETELEMENTBYID //
-// console.log(document.getElementById('header-title'));
+  console.log("document.getElementById('header-title')",document.getElementById('header-title'));
 // var headerTitle = document.getElementById('header-title');
-// var header = document.getElementById('main-header');
+// var header =      document.getElementById('main-header');
 // console.log(headerTitle);
 // headerTitle.textContent = 'Hello';
 // headerTitle.innerText = 'Goodbye';
@@ -88,4 +90,3 @@
 //   odd[i].style.backgroundColor = '#f4f4f4';
 //   even[i].style.backgroundColor = '#ccc';
 // }
-
