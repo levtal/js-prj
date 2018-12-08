@@ -1,4 +1,4 @@
-/ EXAMINE THE DOCUMENT OBJECT //
+/ EXAMINE THE DOCUMENT OBJECT  23.00//
 //https://www.youtube.com/watch?v=wK2cBMcDTss&list=PLillGF-RfqbbnEGy3ROiLWk7JMCuSyQtX&index=7
  console.log("EXAMINE THE DOCUMENT OBJECT ")
  //console.dir('document: ',document);
@@ -187,30 +187,29 @@ var itemList = document.querySelector('#items');
 outstr = '<br><h3>'+"e.offsetX = "+e.offsetX +'</h3>';
 outstr = outstr + ' <h3>'+"e.offsetY = "+e.offsetY +'</h3>'
 outstr = outstr + ' <h3>'+"e.clientX = "+e.clientX +'</h3>'
-outstr = outstr + ' <h3>'+"e.clientX = "+e.offsetY +'</h3>'
+outstr = outstr + ' <h3>'+"e.clientY = "+e.offsetY +'</h3>'
 //   //console.log(e.offsetX);
 //   //console.log(e.offsetY);
 output.innerHTML = outstr;
-//   // console.log(e.altKey);
-//   // console.log(e.ctrlKey);
-//   // console.log(e.shiftKey);
+  console.log('e.altKey :',e.altKey);
+  console.log('e.ctrlKey :',e.ctrlKey);
+  console.log('e.shiftKey :',e.shiftKey);
   }
 
-var button = document.getElementById('button');
+var button = document.getElementById('button2');
 var box = document.getElementById('box');
+button.addEventListener('click', runEvent);
+button.addEventListener('dblclick', runEvent);
+button.addEventListener('mousedown', runEvent);
+button.addEventListener('mouseup', runEvent);
 
-//button.addEventListener('click', runEvent);
-//button.addEventListener('dblclick', runEvent);
-//button.addEventListener('mousedown', runEvent);
-//button.addEventListener('mouseup', runEvent);
+box.addEventListener('mouseenter', runEvent);
+box.addEventListener('mouseleave', runEvent);
 
-//box.addEventListener('mouseenter', runEvent);
-//box.addEventListener('mouseleave', runEvent);
+box.addEventListener('mouseover', runEvent);
+box.addEventListener('mouseout', runEvent);
 
-//box.addEventListener('mouseover', runEvent);
-//box.addEventListener('mouseout', runEvent);
-
-// box.addEventListener('mousemove', runEvent);
+box.addEventListener('mousemove', runEvent);
 
 var itemInput = document.querySelector('input[type="text"]');
 var form = document.querySelector('form');
@@ -238,9 +237,7 @@ function runEvent(e){
   console.log('EVENT TYPE: '+e.type);
 
   //console.log(e.target.value);
-  // document.getElementById('output').innerHTML = '<h3>'+e.target.value+'</h3>';
-
-  // output.innerHTML = '<h3>MouseX: '+e.offsetX+' </h3><h3>MouseY: '+e.offsetY+'</h3>';
-
-  // document.body.style.backgroundColor = "rgb("+e.offsetX+","+e.offsetY+", 40)";
+   document.getElementById('output').innerHTML = '<h3>'+e.target.value+'</h3>';
+   output.innerHTML = '<h3>MouseX: '+e.offsetX+' </h3><h3>MouseY: '+e.offsetY+'</h3>';
+   document.body.style.backgroundColor = "rgb("+e.offsetX+","+e.offsetY+", 40)";
 }
