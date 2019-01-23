@@ -6,9 +6,9 @@
 
 <script>
 $('.btn').click(function() {
-  
+
   $('.text').text('loading . . .');
-  
+
   $.ajax({
     type:"GET",
     url:"https://api.meetup.com/2/cities",
@@ -17,7 +17,7 @@ $('.btn').click(function() {
     },
     dataType: 'jsonp',
   });
-  
+
 });
 
 $('#GetFile').on('click', function () {
@@ -30,9 +30,11 @@ $('#GetFile').on('click', function () {
         success: function (data) {
             var a = document.createElement('a');
             var url = window.URL.createObjectURL(data);
+            console.log(url);
             a.href = url;
             a.download = 'myfile.pdf';
             a.click();
+            console.log(url);
             window.URL.revokeObjectURL(url);
         }
     });
