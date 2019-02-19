@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<!--https://www.youtube.com/watch?v=pnx5gzBjAyY&list=PLQnljOFTspQUppK8iiIuoQJTAj436IWQz&index=2-->
+<!-- https://github.com/hnasr/jsapi4x/blob/episode11/ig.html -->
+<!--20:26 -->
+<html>
+<head>
+	<meta charset="utf-8"/>
+	<title>IGeometry-Head</title>
+	<script src = 'https://js.arcgis.com/4.4'></script>
+	<link rel = "stylesheet" href = "https://js.arcgis.com/4.4/esri/css/main.css">
+
+ </head>
+<body>
+	<button id = 'satellite'>Satellite Map</button>
+  <button id = 'streets'>streets Map</button>
+ 	<button id = 'topo'>topo Map</button>
+	 <div id = 'mapview' style = 'width:500px;height:500px'>map</div>
+
+<script>
+ let topomap, satmap, streetsmap;
+ let mapview;
+//episode 1
+require (["esri/Map", "esri/views/MapView","esri/views/SceneView",],
+		function(Map, MapView,SC)
+		{ //46°47'06.38"N  24°41'32.02" מז'
+       	topomap = new Map({basemap:"topo"})
+				satmap = new Map({basemap:"satellite"})
+				streetsmap = new Map({basemap:"streets"})
+        let viewoptions = {container: "mapview", map: streetsmap,
+				         center: [ 24.9,46.68], zoom: 4}; //[long, latit]
+
+				sceneview = new SC(viewoptions);
+				//https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html
+				//[sceneview.center.longitude, sceneview.center.latitude]
+		});
+document.getElementById("topo").addEventListener("click",
+         function(){ 	sceneview.map = topomap; } )
+document.getElementById("satellite").addEventListener("click",
+				 function(){ 	sceneview.map =satmap; } )
+document.getElementById("streets").addEventListener("click",
+				 function(){ 	sceneview.map =streetsmap; } )
+</script>
+
+
+</html>
