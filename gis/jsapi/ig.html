@@ -1,45 +1,94 @@
 <!DOCTYPE html>
-<!--https://www.youtube.com/watch?v=pnx5gzBjAyY&list=PLQnljOFTspQUppK8iiIuoQJTAj436IWQz&index=2-->
+<!--
+https://www.google.com/maps/place/Jewish+Cemetery+%D7%A1%D7%90%D7%A1%D7%A8%D7%A2%D7%99%D7%92%D7%A2%D7%9F+%D7%91%D7%99%D7%94%D7%B4%D7%97%E2%80%AD/@46.7851664,24.6899532,17z/data=!3m1!4b1!4m9!1m3!8m2!1e1!2s101127583191955185363!3m4!1s0x474a379dbb703adf:0x6934213c49390a83!8m2!3d46.7851627!4d24.6921419?hl=en-GB
+ https://www.youtube.com/watch?v=jsufTg2kGOI&list=PLQnljOFTspQUppK8iiIuoQJTAj436IWQz&index=5
+  
+
+-->
 <!-- https://github.com/hnasr/jsapi4x/blob/episode11/ig.html -->
-<!--20:26 -->
+<!--API  https://developers.arcgis.com/javascript/latest/api-reference/index.html-  -->
+<!-- ArcGIS REST Services Directory    https://server.arcgisonline.com/arcgis/rest/
+https://server.arcgisonline.com/arcgis/rest/?f=pjson    pretty jason
+https://server.arcgisonline.com/arcgis/rest/?f=json     non pretty jason
+-->
+<!--https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html
+20:00
+-->
 <html>
 <head>
-	<meta charset="utf-8"/>
-	<title>IGeometry-Head</title>
-	<script src = 'https://js.arcgis.com/4.4'></script>
-	<link rel = "stylesheet" href = "https://js.arcgis.com/4.4/esri/css/main.css">
+ <meta charset="utf-8"/>
+ <title>IGeometry-Head</title>
+ <script src = 'https://js.arcgis.com/4.4'></script>
+ <link rel = "stylesheet" href = "https://js.arcgis.com/4.4/esri/css/main.css">
 
  </head>
 <body>
-	<button id = 'satellite'>Satellite Map</button>
-  <button id = 'streets'>streets Map</button>
- 	<button id = 'topo'>topo Map</button>
-	 <div id = 'mapview' style = 'width:500px;height:500px'>map</div>
+
+ <select id = 'lstservices'></select>
+ <div id = 'mapview' style = 'width:500px;height:500px'>map</div>
 
 <script>
- let topomap, satmap, streetsmap;
+
  let mapview;
-//episode 1
-require (["esri/Map", "esri/views/MapView","esri/views/SceneView",],
-		function(Map, MapView,SC)
-		{ //46°47'06.38"N  24°41'32.02" מז'
-       	topomap = new Map({basemap:"topo"})
-				satmap = new Map({basemap:"satellite"})
-				streetsmap = new Map({basemap:"streets"})
-        let viewoptions = {container: "mapview", map: streetsmap,
-				         center: [ 24.9,46.68], zoom: 4}; //[long, latit]
+ let map;
+ let vlayer;
 
-				sceneview = new SC(viewoptions);
-				//https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html
-				//[sceneview.center.longitude, sceneview.center.latitude]
-		});
-document.getElementById("topo").addEventListener("click",
-         function(){ 	sceneview.map = topomap; } )
-document.getElementById("satellite").addEventListener("click",
-				 function(){ 	sceneview.map =satmap; } )
-document.getElementById("streets").addEventListener("click",
-				 function(){ 	sceneview.map =streetsmap; } )
-</script>
+require (["esri/Map",
+          "esri/views/MapView",
+          "esri/request",
+          "esri/layers/MapImageLayer",
+          "esri/widgets/Legend"]
+ ,
+
+ function(Map, MapView, Request,MapLayer,Legend)  //46°47'06.38"N  24°41'32.02" מז'
+ {
+  map = new Map({basemap:"streets"})
+	let viewoptions = {container: "mapview", map: map,
+								center: [24.6918402, 46.7851459], scale: 15000}; //[long, latit]
+  mapview = new MapView(viewoptions);
+  let legend  = new Legend({view: mapview});
+  mapview.ui.add(legend, "bottom-left");
+  urlPolar="https://server.arcgisonline.com/arcgis/rest/services/Polar?f=pjson";
+  urlSpecialty ="https://server.arcgisonline.com/arcgis/rest/services/Specialty?f=json";
+  urlReference =  "https://server.arcgisonline.com/arcgis/rest/services/Reference?f=pjson"
+  let url = urlReference;
+  let options = {responseType: "json"};
+	Request(url,options)
+	 .then(function(response){
+		 let result =response.data;
+		 console.log(result.services.length);
+
+  	let lstservices = document.getElementById('lstservices');
+    lstservices.addEventListener("change",function(){
+       selectedService = lstservices.options[lstservices.selectedIndex].textContent;
+
+       console.log(selectedService);
+       //Add layer
+          layer = new MapLayer({url: "https://"+
+             "server.arcgisonline.com/arcgis/rest/services/" +
+              selectedService +
+             "/MapServer"})
+        map.removeAll(); // count  num of layers ==>   map.layers.length
+        map.add(layer);  //count  num of sublayers ==>   map.layers.length
+        layer.then (function() { //wait until the layer is loaded.
+          mapview.goTo(layer.fullExtent);
+      })
+    })
+
+    for(let i=0; i < result.services.length;i++){
+						 let option = document.createElement("option");
+						 option.textContent = result.services[i].name;
+							lstservices.appendChild(option);
+						  console.log(i,'-',result.services[i].name);
+				 }
+		})
+	 //[sceneview.center.longitude, sceneview.center.latitude]
+	 });
+
+	 //https://server.arcgisonline.com/arcgis/rest/services/Demographics?f=pjson
+	 //https://sampleserver1.arcgisonline.com/ArcGIS/rest/services/Demographics/ESRI_Population_World/MapServer?f=json&pretty=true
+	 //  var populationMap = new ArcGISDynamicMapServiceLayer("https://sampleserver1.arcgisonline.com/ArcGIS/rest/services/Demographics/ESRI_Population_World/MapServer");
 
 
-</html>
+ </script>
+ </html>

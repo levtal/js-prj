@@ -1,29 +1,82 @@
 <!DOCTYPE html>
+<!--
+https://www.google.com/maps/place/Jewish+Cemetery+%D7%A1%D7%90%D7%A1%D7%A8%D7%A2%D7%99%D7%92%D7%A2%D7%9F+%D7%91%D7%99%D7%94%D7%B4%D7%97%E2%80%AD/@46.7851664,24.6899532,17z/data=!3m1!4b1!4m9!1m3!8m2!1e1!2s101127583191955185363!3m4!1s0x474a379dbb703adf:0x6934213c49390a83!8m2!3d46.7851627!4d24.6921419?hl=en-GB
+https://www.youtube.com/watch?v=u1BmUL48dE4&list=PLQnljOFTspQUppK8iiIuoQJTAj436IWQz&index=3-->
+<!-- https://github.com/hnasr/jsapi4x/blob/episode11/ig.html -->
+<!--API  https://developers.arcgis.com/javascript/latest/api-reference/index.html-  -->
+<!-- ArcGIS REST Services Directory    https://server.arcgisonline.com/arcgis/rest/
+https://server.arcgisonline.com/arcgis/rest/?f=pjson    pretty jason
+https://server.arcgisonline.com/arcgis/rest/?f=json     non pretty jason
+-->
+<!--https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html
+19:00
+-->
 <html>
 <head>
+	<meta charset="utf-8"/>
 	<title>IGeometry-Head</title>
 	<script src = 'https://js.arcgis.com/4.4'></script>
 	<link rel = "stylesheet" href = "https://js.arcgis.com/4.4/esri/css/main.css">
-</head>
+
+ </head>
 <body>
+	<button id = 'satellite'>Satellite Map</button>
+  <button id = 'streets'>streets Map</button>
+ 	<button id = 'topo'>topo Map</button>
+	<select id = 'lstservices'></select>
+ <div id = 'mapview' style = 'width:500px;height:500px'>map</div>
+
 <script>
-let map1;
-let mapview;
-//episode 1
-require (["esri/Map",
-		 "esri/views/MapView"],
-		function(Map,
-			MapView,)
-		{
+ let topomap, satmap, streetsmap;
+ let mapview;
+ let lastcenter;
+require (["esri/Map", "esri/views/MapView","esri/views/SceneView","esri/request"]
+ ,
 
-			 map1 = new Map({basemap:"topo"})
+ function(Map, MapView,SC,Request) { //46°47'06.38"N  24°41'32.02" מז'
 
-		     mapview = new MapView({container: "mapview", map: map1,
-			 center: [50.528088936, 26.15560068], zoom: 15});
-		})
+  topomap = new Map({basemap:"topo"})
+  satmap = new Map({basemap:"satellite"})
+  streetsmap = new Map({basemap:"streets"})
+  let viewoptions = {container: "mapview", map: satmap,
+				         center: [24.6918402, 46.7851459], scale: 15000}; //[long, latit]
+
+  sceneview = new SC(viewoptions);
+  let url ="https://server.arcgisonline.com/arcgis/rest/?f=json";
+  let options = {responseType: "json"};
+  Request(url,options)
+   .then(function(response){
+     let result =response.data;
+     console.log(result.services.length);
+    let lstservices = document.getElementById('lstservices');
+    for(let i=0; i < result.services.length;i++){
+						  let option = document.createElement("option");
+							option.textContent = result.services[i].name;
+              lstservices.appendChild(option);
+					    console.log(i,'-',result.services[i].name);
+					}
+    })
+ 	//[sceneview.center.longitude, sceneview.center.latitude]
+ 	});
+document.getElementById("topo").addEventListener("click",
+         function(){
+					// let lastcenter = sceneview.center;
+					 sceneview.map = topomap;
+					  //sceneview.center = lastcenter;
+				 } )
+document.getElementById("satellite").addEventListener("click",
+				 function(){
+					 // let lastcenter = sceneview.center;
+					 	sceneview.map =satmap;
+					//	sceneview.center = lastcenter;
+					} )
+document.getElementById("streets").addEventListener("click",
+				 function(){
+            //let lastcenter = sceneview.center;
+					 	sceneview.map =streetsmap;
+            //sceneview.center = lastcenter;
+					} )
 </script>
 
 
-<div id = 'mapview' style = 'width:500px;height:500px'></div>
-</body>
 </html>
