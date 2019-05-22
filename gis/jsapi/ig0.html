@@ -1,4 +1,20 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
+
+<!--
+https://www.google.com/maps/place/Jewish+Cemetery+%D7%A1%D7%90%D7%A1%D7%A8%D7%A2%D7%99%D7%92%D7%A2%D7%9F+%D7%91%D7%99%D7%94%D7%B4%D7%97%E2%80%AD/@46.7851664,24.6899532,17z/data=!3m1!4b1!4m9!1m3!8m2!1e1!2s101127583191955185363!3m4!1s0x474a379dbb703adf:0x6934213c49390a83!8m2!3d46.7851627!4d24.6921419?hl=en-GB
+https://www.youtube.com/watch?v=2vKxsw6DiSs&list=PLQnljOFTspQUppK8iiIuoQJTAj436IWQz&index=10
+
+ 04:00
+-->
+<!-- https://github.com/hnasr/jsapi4x/blob/episode11/ig.html -->
+<!--API  https://developers.arcgis.com/javascript/latest/api-reference/index.html-  -->
+<!-- ArcGIS REST Services Directory    https://server.arcgisonline.com/arcgis/rest/
+https://server.arcgisonline.com/arcgis/rest/?f=pjson    pretty jason
+https://server.arcgisonline.com/arcgis/rest/?f=json     non pretty jason
+-->
+<!--https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html
+ 
+-->
 <html>
 <head>
 	<title>IGeometry</title>
@@ -12,13 +28,13 @@
 	<tr>
 		<td valign = top>
 			<div id = 'toc'>
-
+			
 			</div>
 		</td>
 		<td>
 			<div id = 'mapview' style='width:700px;height:500px'>map goes here</div>
 		</td>
-
+		
 	</tr>
 </table>
 <div id = 'buttons'></div>
@@ -27,37 +43,34 @@
 let mapview;
 let map;
 let layer;
-let r;
-let Request;
-let selectedService;
 //second commit
 require (["esri/Map",
 		 "esri/views/MapView",
 		 "esri/request",
 		 "esri/layers/MapImageLayer",
-		 "esri/widgets/Legend"],
-		function(Map,
-			MapView,
-			esriRequest,
-			MapLayer,
+		 "esri/widgets/Legend"], 
+		function(Map, 
+			MapView, 
+			Request, 
+			MapLayer, 
 			Legend)
 		{
-			 Request= esriRequest;
 			 generateBasemaps();
+			 let rio = [-43.2071205,-22.9436718];
+             let regh = [24.6918402, 46.7851459];
+             let rand = [35.6918402, 32.7851459];
+             let usa  = [-117.1616394868625, 32.7127455035969];
 			 map = new Map({basemap:"streets"})
-			 let viewoptions = {container: "mapview", map: map,
-			 center: [-117.1616394868625, 32.7127455035969], scale: 10000}
+			 let viewoptions = {container: "mapview", map: map,  center: rio, scale: 10000}
 		     mapview = new MapView(viewoptions);
-
+		    
 		     let legend = new Legend({view: mapview});
 		     mapview.ui.add(legend, "bottom-left");
-		     let url = "https://sampleserver6.arcgisonline.com/arcgis/rest/services?f=json";
+		     let hurl = "https://sampleserver6.arcgisonline.com/arcgis/rest/services"
+             let url = hurl+"?f=json";
 		     let options = {responseType: "json"};
-		     //getCount(4);
-		     //getCount(9);
 		     Request(url, options).then(populateMapServices);
-
-		     //populate the drop downlist of mapservices
+		     //populate the drop downlist of mapservices 
 		    function populateMapServices (response){
 		     	let result = response.data;
 		     	let lstservices = document.getElementById("lstservices");
@@ -73,77 +86,51 @@ require (["esri/Map",
 		     }
 			function onChangeServiceMap()
 			{
-			    selectedService = lstservices.options[lstservices.selectedIndex].textContent;
+				let selectedService = lstservices.options[lstservices.selectedIndex].textContent;
 					//add layer
-				layer = new MapLayer({url: "https://sampleserver6.arcgisonline.com/arcgis/rest/services/" + selectedService + "/MapServer"})
+				layer = new MapLayer({url:hurl+ '/' + selectedService + "/MapServer"})
 				map.removeAll();
 				map.add(layer);
 				//wait until the layer is loaded.
 				layer.then
-					(() =>
+					(() => 
 					{
-
+					
 					let toc = document.getElementById("toc");
 					toc.innerHTML = "";
 					let layerlist = document.createElement("ul");
 					toc.appendChild(layerlist);
 					//populate layers in list
-					populateLayerRecursive(layer, layerlist);
+					populateLayer(layer, layerlist);
 					mapview.goTo(layer.fullExtent)
 					}
 					)
 			}
 		}
 		);
-
-
-
-function getCount(layerid)
-{
- 	let queryurl = "https://sampleserver6.arcgisonline.com/arcgis/rest/services/" + selectedService + "/MapServer/" + layerid + "/query";
-	let queryOptions = {
-     					responseType: "json",
-     					query:
-     					{
-							f: "json",
-							where:"1=1",
-							returnCountOnly: true
-     					}
-     				   }
-	     Request(queryurl,queryOptions).then (response => alert(response.data.count));
-}
+ 
 //Populate layer subitems in the input element
-function populateLayerRecursive(thislayer, layerlist)
+function populateLayer(thislayer, layerlist)
 {
-
-	let chk = document.createElement("input");
-	chk.type = "checkbox";
-	chk.value = thislayer.id;
-	chk.checked = thislayer.visible;
-	chk.addEventListener("click", e => thislayer.visible=e.target.checked )
-
-	let lbl = document.createElement("label");
-	lbl.textContent = thislayer.title;
-	let btn = document.createElement("button");
-	btn.textContent = "Count";
-	btn.addEventListener("click", e => getCount(thislayer.id))
-	let layeritem = document.createElement("li");
-	layeritem.appendChild(chk);
-	layeritem.appendChild(lbl);
-	layeritem.appendChild(btn);
-	layerlist.appendChild(layeritem);
-	if (thislayer.sublayers != null && thislayer.sublayers.items.length > 0)
+	for (let i = 0; i < thislayer.sublayers.length; i++)
 	{
-		 let newlist = document.createElement("ul");
-		 layerlist.appendChild(newlist);
-		 for (let i = 0; i < thislayer.sublayers.length; i++)
-	 	 {
-		 	 populateLayerRecursive(thislayer.sublayers.items[i],newlist);
-
-	     }
+		let sublayer = thislayer.sublayers.items[i];
+		let chk = document.createElement("input");
+		chk.type = "checkbox";
+		chk.value = sublayer.id;
+		chk.checked = sublayer.visible;
+		chk.addEventListener("click", function(e) 
+			{
+			  let clickedlayer = thislayer.findSublayerById(Number(e.target.value));
+			  clickedlayer.visible=e.target.checked 
+			})
+		let lbl = document.createElement("label");
+		lbl.textContent = sublayer.title;
+		let layeritem = document.createElement("li");
+		layeritem.appendChild(chk);
+		layeritem.appendChild(lbl);
+		layerlist.appendChild(layeritem);
 	}
-	//let sublayer = thislayer.sublayers.items[i];
-
 }
 //Generate list of buttons for basemaps
 function generateBasemaps()
