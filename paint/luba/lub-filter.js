@@ -467,6 +467,7 @@ Lubfilt.thresholding = function(pixels, args) {
 
 
 Lubfilt.invert = function(pixels) {
+    console.log("Image Succesfully Loaded");
   for (var i = 0; i < pixels.data.length; i += 4) {
     pixels.data[i] = 255 - pixels.data[i]
     pixels.data[i+1] = 255 - pixels.data[i+1]
@@ -479,12 +480,62 @@ Lubfilt.invert = function(pixels) {
 
 
 
+ Lubfilt.changePix = function  (pixels,x,y,ncolor){
+  var src = pixels.data
+  var   canvasWidth = pixels.width;
+  var dstOff = (y * canvasWidth + x) * 4;
+    src[dstOff] =  ncolor[0] ;
+    src[dstOff+1]= ncolor[1];
+    src[dstOff+2]= ncolor[2];
+  return pixels;
+  //return [pixels.data[dstOff],pixels.data[dstOff+1],pixels.data[dstOff+2], pixels.data[dstOff+3]];
+}
 
+
+Lubfilt.getPix = function(pixels,x,y){
+  var src = pixels.data;
+  var   canvasWidth = pixels.width;
+  var dstOff = (y * canvasWidth + x) * 4;
+
+  return [pixels.data[dstOff],pixels.data[dstOff+1],pixels.data[dstOff+2], pixels.data[dstOff+3]];
+}
 Lubfilt.mvert = function(pixels) {
-  for (var i = 0; i < pixels.data.length; i += 4) {
-    pixels.data[i] = 255 - pixels.data[i]
-    pixels.data[i+1] = 255 - pixels.data[i+1]
-    pixels.data[i+2] = 255 - pixels.data[i+2]
+   var src = pixels.data,
+      canvasWidth = pixels.width,
+      canvasHeight = pixels.height;
+ ncolor = [50,150,250];
+  for (var y = 1; y < canvasHeight-1; y++) {
+    for (var x = 1; x < canvasWidth-1; x++) {
+      //pixels =  Lubfilt.changePix(pixels,x,y,ncolor);
+    }
   }
-   return pixels;
+// pixels =  Lubfilt.changePix(pixels,0,0,ncolor);
+ var colorPix =   Lubfilt.getPix( pixels, 1, 1);
+ var redIndex = colorPix[0];
+   console.log("redIndex",redIndex);
+   Lubfilt.countNeig( pixels, 1, 1);
+  return pixels;
+}
+
+
+Lubfilt.countNeig = function(pixels,x,y){
+  var src = pixels.data;
+  var canvasHeight = pixels.height,  canvasWidth = pixels.width;
+  var dstOff;
+  var neig_counter =0;
+  for (var j = y-1; j <= y+1; j++) {
+    for (var i = x-1; i <= x+1; i++) {
+     if  	(!(i == x  &&  j == y))   {
+        dstOff = (j * canvasWidth +i) * 4;
+        sumColor = pixels.data[dstOff] + pixels.data[dstOff+1] + pixels.data[dstOff+2];
+        if (sumColor >300) {
+              neig_counter++
+            }
+        console.log("i=",i,"j = ",j,"data ",pixels.data[dstOff],"sumcolor =",  sumColor);
+      }
+    }
+  }
+
+  console.log("  neig_counter =",     neig_counter);
+
 }
