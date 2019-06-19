@@ -4,6 +4,8 @@
  *  Library for image processing
 
 */
+
+
 var Lubfilt = {};
 
 Lubfilt.getImage = function(img) {
@@ -467,7 +469,7 @@ Lubfilt.thresholding = function(pixels, args) {
 
 
 Lubfilt.invert = function(pixels) {
-    console.log("Image Succesfully Loaded");
+
   for (var i = 0; i < pixels.data.length; i += 4) {
     pixels.data[i] = 255 - pixels.data[i]
     pixels.data[i+1] = 255 - pixels.data[i+1]
@@ -476,6 +478,10 @@ Lubfilt.invert = function(pixels) {
 
   return pixels
 }
+
+
+
+
 
 
 
@@ -499,43 +505,95 @@ Lubfilt.getPix = function(pixels,x,y){
 
   return [pixels.data[dstOff],pixels.data[dstOff+1],pixels.data[dstOff+2], pixels.data[dstOff+3]];
 }
-Lubfilt.mvert = function(pixels) {
-   var src = pixels.data,
-      canvasWidth = pixels.width,
-      canvasHeight = pixels.height;
- ncolor = [50,150,250];
-  for (var y = 1; y < canvasHeight-1; y++) {
-    for (var x = 1; x < canvasWidth-1; x++) {
-      //pixels =  Lubfilt.changePix(pixels,x,y,ncolor);
-    }
-  }
-// pixels =  Lubfilt.changePix(pixels,0,0,ncolor);
- var colorPix =   Lubfilt.getPix( pixels, 1, 1);
- var redIndex = colorPix[0];
-   console.log("redIndex",redIndex);
-   Lubfilt.countNeig( pixels, 1, 1);
-  return pixels;
+
+
+// Conway's Game of Life
+//------------------------------------------
+
+const LIFE_VALUE = 250,DEAD=0,LIVE=1 ;
+
+ function Create2DArray(rows,columns) {
+    var arr = [];
+    for(var x = 0; x <= rows; x++){
+         arr[x] = [];
+         for(var y = 0; y <=columns; y++){
+         arr[x][y] = DEAD;
+     }
+ }
+ return arr;
 }
 
 
+
+
+Lubfilt.Conway = function(pixels) {
+   var src = pixels.data,
+      cWidth = pixels.width,
+      cHeight = pixels.height;
+   //var colorPix ;
+
+  var  temp_image_pixels = Create2DArray(cHeight,cWidth);
+    live_color = [150,150,150];
+    dead_color = [10,10, 0];
+   for (var y = 0; y < cWidth  ;y++) {
+      for (var x = 0; x <cHeight ; x++) {
+           neig_counter =  Lubfilt.countNeig( pixels,x, y);
+           life_value =  Lubfilt.calculateLife( pixels,x, y);
+           //Rules of game
+
+           // the cell   alive and  neig <=1
+          if (life_value >= LIFE_VALUE && neig_counter <=1){
+            temp_image_pixels[x][y] = DEAD ;
+            }
+          // the cell   alive and      neig > 3
+         if (life_value >= LIFE_VALUE && neig_counter>3){
+                temp_image_pixels[x][y] = DEAD ;
+           }
+           // the cell   dead  and      neig = 3
+          if (life_value < LIFE_VALUE && neig_counter ==3){
+              temp_image_pixels[x][y] = LIVE ;
+       }
+  }
+}
+for (var y = 0; y < cWidth  ;y++) {
+   for (var x = 0; x <cHeight ; x++) {
+      if (temp_image_pixels[x][y] == DEAD) {
+         pixels = Lubfilt.changePix(pixels,y,x,dead_color);
+      }
+      else {       // LIVE
+         pixels = Lubfilt.changePix(pixels,y,x,live_color);
+      }
+   }
+ }
+ return  pixels;
+}
+
+
+ Lubfilt.calculateLife = function(pixels,x,y){
+
+  var  canvasWidth = pixels.width;
+  var dstOff;
+
+  dstOff = (x * canvasWidth +y) * 4;
+  sumColor = pixels.data[dstOff] + pixels.data[dstOff+1] + pixels.data[dstOff+2];
+ return sumColor;
+}
+
 Lubfilt.countNeig = function(pixels,x,y){
   var src = pixels.data;
-  var canvasHeight = pixels.height,  canvasWidth = pixels.width;
-  var dstOff;
-  var neig_counter =0;
-  for (var j = y-1; j <= y+1; j++) {
-    for (var i = x-1; i <= x+1; i++) {
-     if  	(!(i == x  &&  j == y))   {
-        dstOff = (j * canvasWidth +i) * 4;
-        sumColor = pixels.data[dstOff] + pixels.data[dstOff+1] + pixels.data[dstOff+2];
-        if (sumColor >300) {
-              neig_counter++
-            }
-        console.log("i=",i,"j = ",j,"data ",pixels.data[dstOff],"sumcolor =",  sumColor);
-      }
-    }
+  var ht = pixels.height,  wt = pixels.width;
+  //var dstOff;
+  var neig_counter =0,life_value=0;
+
+   for (var i = x-1; i <= x+1; i++) {
+       for (var j = y-1; j <= y+1; j++) {
+          if  (!(i == x  &&  j == y) &&  !(j < 0 ||  i <  0)&&  !(j >wt-1 ||  i > ht-1))   {
+            life_value =  Lubfilt.calculateLife( pixels,i,j);
+              if (life_value > LIFE_VALUE) {
+                 neig_counter++
+             }
+         }
+     }
   }
-
-  console.log("  neig_counter =",     neig_counter);
-
+  return  neig_counter;
 }
