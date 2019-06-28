@@ -81,7 +81,8 @@ Lubfilt.countNeig = function(pixels,x,y){
         case 3:
         case 4:return [220, 0, 0];   break;
         case 5:return color;  break;
-        case 6:
+       
+  	   case 6:
         case 7:
         case 8:  // return [0,150,150];   break;
       default: return [150,150,150];   break;
