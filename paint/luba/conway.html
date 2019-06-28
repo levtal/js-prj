@@ -6,35 +6,20 @@
  <p> Image./i.jpg" </p>
  <br>
  <img id="original-image" src="./2.jpg"  >
-
- <img id="output-image" src="./2.jpg"  >
-
+  <img id="output-image" src="./2.jpg"  >
 
  <body onload="flt()">
-
   <script type="text/javascript" src="conway-filter.js"></script>
   <script>
-
-  function flt(){
+   function flt(){
     var imgObj = document.getElementById('output-image');
-
-    imgObj.src =  Lubfilt.conway(imgObj);
-
-    /*  var imgObj2 = document.getElementById('output-image2');
-
-
-      imgObj2.src =  Lubfilt.conway(imgObj2);
-      imgObj2.src =  Lubfilt.conway(imgObj2);
-
-*/
+   imgObj.src =  Lubfilt.conway(imgObj);
+    //imgObj.src =  Lubfilt.conway(imgObj);
+   /*var imgObj2 = document.getElementById('output-image2');
+    imgObj2.src =  Lubfilt.conway(imgObj2);
+    imgObj2.src =  Lubfilt.conway(imgObj2);
+    imgObj2.src =  Lubfilt.conway(imgObj2);*/
    }
-
-
-
-
-
-
-
-</script>
+ </script>
 </body>
 </html>
