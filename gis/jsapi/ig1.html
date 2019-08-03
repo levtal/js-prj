@@ -19,7 +19,8 @@
              "esri/views/MapView"],
        function(Map,MapView)
 	   {
-	    map1 = new Map({basemap:"topo"})
+	    map1 = new Map({basemap:"topo"});
+		map2 = new Map({basemap:"test"});
 		mapview = new MapView({container:"mapview", 
 		                       map:map1, zoom:11, 
 							   center: [50.62154531477522,25.94421084350059]});
